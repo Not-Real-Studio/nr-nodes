@@ -1,0 +1,44 @@
+{
+  "name": "@notreal/nodes",
+  "version": "0.1.20",
+  "description": "Node-based editor framework for LLM pipelines and procedural generation",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "./core": {
+      "types": "./src/core/index.ts",
+      "import": "./src/core/index.ts"
+    },
+    "./ui": {
+      "types": "./src/ui/index.ts",
+      "import": "./src/ui/index.ts"
+    },
+    "./ui/styles": "./src/ui/styles/nodes.css"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notreal/nodes"
+  },
+  "author": "Denis",
+  "license": "MIT"
+}

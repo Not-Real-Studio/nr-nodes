@@ -1,0 +1,457 @@
+/* ============================================================================
+   @notreal/nodes — Base Styles
+   All classes prefixed with nn- (notreal-nodes)
+   ============================================================================ */
+
+/* Canvas */
+.nn-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #1a1a2e;
+  background-image:
+    radial-gradient(circle, #ffffff08 1px, transparent 1px);
+  background-size: 20px 20px;
+  cursor: default;
+  user-select: none;
+}
+
+.nn-canvas-panning {
+  cursor: grab;
+}
+
+.nn-canvas-transform {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Zoom controls */
+.nn-zoom-controls {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 2px;
+  z-index: 10;
+  background: #1e1e2e;
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid #333;
+}
+
+.nn-zoom-controls button {
+  background: transparent;
+  color: #ccc;
+  border: none;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.nn-zoom-controls button:hover {
+  background: #333;
+}
+
+/* Connections SVG layer */
+.nn-connections-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.nn-connections-layer g {
+  pointer-events: stroke;
+}
+
+.nn-connection-line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 2;
+  transition: stroke 0.15s;
+}
+
+.nn-connection-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+  cursor: pointer;
+}
+
+.nn-connection-selected .nn-connection-line {
+  stroke: #4a9eff;
+  stroke-width: 2.5;
+}
+
+.nn-connection-warning .nn-connection-line {
+  stroke: #ffb347;
+}
+
+.nn-connection-preview {
+  fill: none;
+  stroke: #4a9eff;
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  opacity: 0.7;
+}
+
+/* Nodes layer */
+.nn-nodes-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Node */
+.nn-node {
+  position: absolute;
+  min-width: 160px;
+  background: #252535;
+  border: 1px solid #3a3a4a;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: move;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.nn-node:hover {
+  border-color: #555;
+}
+
+.nn-node-selected {
+  border-color: #4a9eff;
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Node header */
+.nn-node-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #333345;
+  border-radius: 7px 7px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #eee;
+}
+
+.nn-node-icon {
+  font-size: 14px;
+}
+
+.nn-node-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Node content (ports) */
+.nn-node-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  min-height: 24px;
+}
+
+.nn-ports {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nn-ports-in {
+  align-items: flex-start;
+}
+
+.nn-ports-out {
+  align-items: flex-end;
+}
+
+/* Port */
+.nn-port {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.nn-port-in {
+  flex-direction: row;
+}
+
+.nn-port-out {
+  flex-direction: row-reverse;
+}
+
+.nn-port-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #444;
+  border: 2px solid #666;
+  cursor: crosshair;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.nn-port-circle:hover {
+  background: #4a9eff;
+  border-color: #4a9eff;
+}
+
+.nn-port-connected {
+  background: #4a9eff;
+  border-color: #5aaeFF;
+}
+
+.nn-port-label {
+  white-space: nowrap;
+}
+
+/* Node body */
+.nn-node-body {
+  padding: 4px 10px 6px;
+  font-size: 11px;
+  color: #999;
+  border-top: 1px solid #3a3a4a;
+}
+
+/* Node preview */
+.nn-node-preview {
+  padding: 4px 10px 6px;
+  font-size: 11px;
+  color: #7a7a8a;
+  border-top: 1px solid #3a3a4a;
+  font-style: italic;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+/* Error */
+.nn-error {
+  padding: 6px 10px;
+  background: #ff444420;
+  border: 1px solid #ff444444;
+  border-radius: 4px;
+  color: #ff6666;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nn-error-message {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nn-error-retry {
+  background: transparent;
+  color: #ff8888;
+  border: 1px solid #ff444444;
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+/* Inspector */
+.nn-inspector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: #1e1e2e;
+  color: #ccc;
+  font-size: 13px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.nn-inspector-empty {
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.nn-inspector-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.nn-inspector-icon {
+  font-size: 18px;
+}
+
+.nn-inspector-type {
+  flex: 1;
+  font-weight: 600;
+}
+
+.nn-inspector-delete {
+  background: transparent;
+  color: #ff6666;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.nn-inspector-delete:hover {
+  background: #ff444420;
+}
+
+.nn-inspector-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nn-inspector-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nn-inspector-input {
+  background: #252535;
+  border: 1px solid #3a3a4a;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #ddd;
+  font-size: 13px;
+  outline: none;
+}
+
+.nn-inspector-input:focus {
+  border-color: #4a9eff;
+}
+
+.nn-inspector-json {
+  background: #1a1a28;
+  border-radius: 4px;
+  padding: 8px;
+  overflow: auto;
+  max-height: 200px;
+}
+
+.nn-inspector-json pre {
+  margin: 0;
+  font-size: 11px;
+  color: #888;
+}
+
+.nn-inspector-meta {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #333;
+  font-size: 11px;
+  color: #666;
+}
+
+.nn-inspector-meta-row {
+  display: flex;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.nn-inspector-meta code {
+  color: #888;
+}
+
+/* Toolbar */
+.nn-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #1e1e2e;
+  border-bottom: 1px solid #333;
+  flex-wrap: wrap;
+}
+
+.nn-toolbar-name {
+  background: #252535;
+  border: 1px solid #3a3a4a;
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: #ddd;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 120px;
+  outline: none;
+}
+
+.nn-toolbar-name:focus {
+  border-color: #4a9eff;
+}
+
+.nn-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nn-toolbar-group-label {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 2px;
+}
+
+.nn-toolbar-btn {
+  background: #333345;
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s;
+}
+
+.nn-toolbar-btn:hover {
+  background: #444455;
+}
+
+.nn-toolbar-btn-danger {
+  color: #ff6666;
+  border-color: #ff444444;
+}
+
+.nn-toolbar-btn-danger:hover {
+  background: #ff444420;
+}
+
+.nn-toolbar-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.nn-toolbar-extra {
+  display: flex;
+  gap: 4px;
+}
