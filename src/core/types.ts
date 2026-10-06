@@ -1,5 +1,5 @@
 // ============================================================================
-// @notreal/nodes v2 — Core Types
+// nr-nodes — Core Types
 // ============================================================================
 
 import type { ComponentType } from 'react'
@@ -119,11 +119,23 @@ export interface Connection {
   to: PortRef
 }
 
+export interface GraphGroup {
+  id: string
+  /** Display name (label of the frame on canvas) */
+  name: string
+  /** Member node ids. A node belongs to at most one group. */
+  nodes: string[]
+  /** Frame color (any CSS color) */
+  color?: string
+}
+
 export interface NodeGraph {
   version: number
   name: string
   nodes: GraphNode[]
   connections: Connection[]
+  /** Node groups (optional — graphs without groups are valid) */
+  groups?: GraphGroup[]
   /** Arbitrary graph metadata */
   meta?: Record<string, unknown>
 }

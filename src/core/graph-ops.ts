@@ -1,4 +1,4 @@
-import type { NodeGraph, GraphNode, Connection, PortRef, Position } from './types.js'
+import type { NodeGraph, GraphNode, GraphGroup, Connection, PortRef, Position } from './types.js'
 import type { NodeRegistry } from './registry.js'
 import { generateId } from './id.js'
 import { validateConnection } from './validation.js'
@@ -23,15 +23,21 @@ export function addNode(graph: NodeGraph, node: GraphNode): [NodeGraph, string] 
   ]
 }
 
-/** Remove a node and all its connections. */
+/** Remove a node, all its connections and its group membership. */
 export function removeNode(graph: NodeGraph, nodeId: string): NodeGraph {
-  return {
+  const next: NodeGraph = {
     ...graph,
     nodes: graph.nodes.filter(n => n.id !== nodeId),
     connections: graph.connections.filter(
       c => c.from.node !== nodeId && c.to.node !== nodeId,
     ),
   }
+  if (graph.groups) {
+    next.groups = graph.groups.map(g =>
+      g.nodes.includes(nodeId) ? { ...g, nodes: g.nodes.filter(id => id !== nodeId) } : g,
+    )
+  }
+  return next
 }
 
 /** Update a node (partial merge). */
@@ -57,6 +63,103 @@ export function updateNodeData(graph: NodeGraph, nodeId: string, data: Record<st
 /** Move a node. */
 export function moveNode(graph: NodeGraph, nodeId: string, position: Position): NodeGraph {
   return updateNode(graph, nodeId, { position })
+}
+
+/** Move several nodes by the same offset. */
+export function moveNodes(graph: NodeGraph, nodeIds: string[], delta: Position): NodeGraph {
+  const ids = new Set(nodeIds)
+  return {
+    ...graph,
+    nodes: graph.nodes.map(n =>
+      ids.has(n.id)
+        ? { ...n, position: { x: n.position.x + delta.x, y: n.position.y + delta.y } }
+        : n,
+    ),
+  }
+}
+
+// ============================================================================
+// Group operations
+// ============================================================================
+
+/** Keep only existing, unique node ids. */
+function cleanMembers(graph: NodeGraph, nodeIds: string[]): string[] {
+  const existing = new Set(graph.nodes.map(n => n.id))
+  return [...new Set(nodeIds)].filter(id => existing.has(id))
+}
+
+/** Assign `members` to group `groupId`, removing them from any other group. */
+function withMembers(groups: GraphGroup[], groupId: string, members: string[]): GraphGroup[] {
+  const taken = new Set(members)
+  return groups.map(g =>
+    g.id === groupId
+      ? { ...g, nodes: members }
+      : g.nodes.some(id => taken.has(id))
+        ? { ...g, nodes: g.nodes.filter(id => !taken.has(id)) }
+        : g,
+  )
+}
+
+/** Add a group. Listed nodes move into it from their previous groups.
+ *  Returns [new graph, group id]. */
+export function addGroup(
+  graph: NodeGraph,
+  group: { name: string; nodes?: string[]; color?: string },
+): [NodeGraph, string] {
+  const existing = new Set((graph.groups ?? []).map(g => g.id))
+  let id = generateId()
+  while (existing.has(id)) id = generateId()
+  const created: GraphGroup = { id, name: group.name, nodes: [] }
+  if (group.color !== undefined) created.color = group.color
+  const members = cleanMembers(graph, group.nodes ?? [])
+  return [
+    { ...graph, groups: withMembers([...(graph.groups ?? []), created], id, members) },
+    id,
+  ]
+}
+
+/** Remove a group. Its nodes stay in the graph. */
+export function removeGroup(graph: NodeGraph, groupId: string): NodeGraph {
+  if (!graph.groups) return graph
+  return { ...graph, groups: graph.groups.filter(g => g.id !== groupId) }
+}
+
+/** Update a group (partial merge). `nodes` in the patch replaces membership
+ *  and moves those nodes out of other groups. */
+export function updateGroup(
+  graph: NodeGraph,
+  groupId: string,
+  patch: Partial<Omit<GraphGroup, 'id'>>,
+): NodeGraph {
+  const groups = graph.groups
+  if (!groups?.some(g => g.id === groupId)) return graph
+  let next = groups.map(g => (g.id === groupId ? { ...g, ...patch, id: g.id } : g))
+  if (patch.nodes) next = withMembers(next, groupId, cleanMembers(graph, patch.nodes))
+  return { ...graph, groups: next }
+}
+
+/** Put a node into a group (moving it out of its previous group), or out of any group with `null`. */
+export function setNodeGroup(graph: NodeGraph, nodeId: string, groupId: string | null): NodeGraph {
+  const groups = graph.groups ?? []
+  if (!graph.nodes.some(n => n.id === nodeId)) return graph
+  if (groupId === null) {
+    if (!groups.some(g => g.nodes.includes(nodeId))) return graph
+    return {
+      ...graph,
+      groups: groups.map(g =>
+        g.nodes.includes(nodeId) ? { ...g, nodes: g.nodes.filter(id => id !== nodeId) } : g,
+      ),
+    }
+  }
+  const target = groups.find(g => g.id === groupId)
+  if (!target) return graph
+  if (target.nodes.includes(nodeId)) return graph
+  return { ...graph, groups: withMembers(groups, groupId, [...target.nodes, nodeId]) }
+}
+
+/** Group containing the node, if any. */
+export function getNodeGroup(graph: NodeGraph, nodeId: string): GraphGroup | undefined {
+  return graph.groups?.find(g => g.nodes.includes(nodeId))
 }
 
 // ============================================================================
