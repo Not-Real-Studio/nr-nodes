@@ -35,6 +35,7 @@ export function NodeView({
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('.nn-port-circle')) return
+    if (e.button !== 0) return // middle button pans the canvas
     e.stopPropagation()
     onSelect?.(node.id)
     onDragStart?.(node.id, e.clientX, e.clientY)

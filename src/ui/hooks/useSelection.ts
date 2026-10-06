@@ -17,6 +17,12 @@ export function useSelection() {
     }
   }, [])
 
+  /** Replace node selection with the given ids (e.g. all members of a group). */
+  const selectNodes = useCallback((ids: string[]) => {
+    setSelectedConnections([])
+    setSelectedNodes([...new Set(ids)])
+  }, [])
+
   const selectConnection = useCallback((id: string) => {
     setSelectedNodes([])
     setSelectedConnections([id])
@@ -45,6 +51,7 @@ export function useSelection() {
     selectedNodes,
     selectedConnections,
     selectNode,
+    selectNodes,
     selectConnection,
     deselectAll,
     deleteSelected,

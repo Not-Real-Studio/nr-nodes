@@ -7,6 +7,8 @@ export interface ToolbarProps {
   onSave?: () => void
   onLoad?: () => void
   onClear?: () => void
+  /** Present → an "Auto layout" button is rendered */
+  onAutoLayout?: () => void
   graphName?: string
   onNameChange?: (name: string) => void
   /** Extra buttons from consumer */
@@ -14,7 +16,7 @@ export interface ToolbarProps {
 }
 
 export function Toolbar({
-  registry, onAddNode, onSave, onLoad, onClear,
+  registry, onAddNode, onSave, onLoad, onClear, onAutoLayout,
   graphName, onNameChange, extra,
 }: ToolbarProps) {
   const categories = registry.getCategories()
@@ -69,6 +71,7 @@ export function Toolbar({
 
       {/* Actions */}
       <div className="nn-toolbar-actions">
+        {onAutoLayout && <button className="nn-toolbar-btn" onClick={onAutoLayout}>Auto layout</button>}
         {onSave && <button className="nn-toolbar-btn" onClick={onSave}>Save</button>}
         {onLoad && <button className="nn-toolbar-btn" onClick={onLoad}>Load</button>}
         {onClear && <button className="nn-toolbar-btn nn-toolbar-btn-danger" onClick={onClear}>Clear</button>}

@@ -57,6 +57,47 @@
   background: #333;
 }
 
+/* Group frames */
+.nn-groups-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.nn-group {
+  --nn-group-color: #8a8aa8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--nn-group-color);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--nn-group-color) 8%, transparent);
+  pointer-events: none;
+}
+
+.nn-group-label {
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  max-width: calc(100% - 16px);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--nn-group-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: move;
+  pointer-events: auto;
+}
+
+.nn-group-label:hover {
+  background: color-mix(in srgb, var(--nn-group-color) 20%, transparent);
+}
+
 /* Connections SVG layer */
 .nn-connections-layer {
   position: absolute;

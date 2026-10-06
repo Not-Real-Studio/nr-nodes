@@ -1,6 +1,6 @@
 // Components
 export { Canvas } from './components/Canvas.js'
-export type { CanvasProps } from './components/Canvas.js'
+export type { CanvasProps, CanvasHandle } from './components/Canvas.js'
 export { NodeView } from './components/NodeView.js'
 export type { NodeViewProps } from './components/NodeView.js'
 export { ConnectionView } from './components/ConnectionView.js'
