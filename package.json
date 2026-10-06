@@ -31,7 +31,7 @@
     "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "build": "tsc -p tsconfig.build.json && node -e \"const fs=require('fs');fs.mkdirSync('dist/ui/styles',{recursive:true});fs.copyFileSync('src/ui/styles/nodes.css','dist/ui/styles/nodes.css')\"",
     "dev": "tsc -p tsconfig.build.json --watch",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p demo/tsconfig.json",
     "test": "vitest run",
     "demo": "vite demo --port 5190 --strictPort",
     "demo:build": "vite build demo",

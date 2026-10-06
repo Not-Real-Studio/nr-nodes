@@ -4,3 +4,6 @@ dist/
 *.log
 .code/
 .claude/
+demo-dist/
+test-results/
+playwright-report/

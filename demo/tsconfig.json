@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "..",
+    "paths": {
+      "@notrealstudio/nr-nodes/core": ["../src/core/index.ts"],
+      "@notrealstudio/nr-nodes/ui": ["../src/ui/index.ts"]
+    }
+  },
+  "include": [".", "../e2e", "../playwright.config.ts"]
+}

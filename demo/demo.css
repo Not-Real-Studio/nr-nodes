@@ -1,0 +1,23 @@
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #1a1a2e;
+}
+
+.demo {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 280px;
+  height: 100%;
+}
+
+.demo-toolbar { grid-column: 1 / -1; }
+.demo-canvas { min-height: 0; }
+.demo-inspector { border-left: 1px solid #333; min-height: 0; }
+
+.demo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
