@@ -2,7 +2,7 @@ html, body, #root {
   margin: 0;
   height: 100%;
   font-family: system-ui, -apple-system, sans-serif;
-  background: #1a1a2e;
+  background: var(--nr-bg, #1a1a2e);
 }
 
 .demo {
@@ -14,7 +14,7 @@ html, body, #root {
 
 .demo-toolbar { grid-column: 1 / -1; }
 .demo-canvas { min-height: 0; }
-.demo-inspector { border-left: 1px solid #333; min-height: 0; }
+.demo-inspector { border-left: 1px solid var(--nr-line, #333); min-height: 0; }
 
 .demo-field {
   display: flex;

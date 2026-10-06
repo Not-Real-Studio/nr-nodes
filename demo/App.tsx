@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   NodeRegistry, applyLayout, layoutLayered, removeNode, removeConnection, DEFAULT_NODE_SIZE,
 } from '@notrealstudio/nr-nodes/core'
@@ -82,7 +82,43 @@ function startGraph(): NodeGraph {
   }
 }
 
+/**
+ * Host theme tokens (nrchat's --nr-*), set on the page root the way a host app
+ * does. 'none' — no tokens: the editor falls back to its own dark look.
+ */
+type DemoTheme = 'none' | 'light' | 'dark'
+const THEMES: Record<Exclude<DemoTheme, 'none'>, Record<string, string>> = {
+  light: {
+    '--nr-bg': '#f6efe3', '--nr-surface': '#efe6d8', '--nr-raised': '#fffaf0',
+    '--nr-fg': '#1f1a14', '--nr-muted': 'rgb(31 26 20 / 0.7)',
+    '--nr-line': '#ddd0bb', '--nr-line-soft': '#e3d7c4',
+    '--nr-accent': '#b5651d', '--nr-error': '#a8452c',
+    '--nr-font-ui': 'system-ui, -apple-system, sans-serif', '--nr-font-mono': 'ui-monospace, Menlo, monospace',
+    '--nr-radius': '5px',
+  },
+  dark: {
+    '--nr-bg': '#171310', '--nr-surface': '#1f1a16', '--nr-raised': '#2a231d',
+    '--nr-fg': '#efe6da', '--nr-muted': 'rgb(239 230 218 / 0.72)',
+    '--nr-line': '#3a3128', '--nr-line-soft': '#2a241e',
+    '--nr-accent': '#d08a4a', '--nr-error': '#d46a50',
+    '--nr-font-ui': 'system-ui, -apple-system, sans-serif', '--nr-font-mono': 'ui-monospace, Menlo, monospace',
+    '--nr-radius': '5px',
+  },
+}
+const NEXT_THEME: Record<DemoTheme, DemoTheme> = { none: 'light', light: 'dark', dark: 'none' }
+
+function useDemoTheme(theme: DemoTheme) {
+  useEffect(() => {
+    const root = document.documentElement
+    for (const key of Object.keys(THEMES.light)) root.style.removeProperty(key)
+    if (theme !== 'none') for (const [key, value] of Object.entries(THEMES[theme])) root.style.setProperty(key, value)
+    root.dataset.theme = theme
+  }, [theme])
+}
+
 export function App() {
+  const [theme, setTheme] = useState<DemoTheme>('none')
+  useDemoTheme(theme)
   const registry = useMemo(createRegistry, [])
   const initial = useMemo(() => {
     const g = startGraph()
@@ -139,6 +175,9 @@ export function App() {
             <button className="nn-toolbar-btn" onClick={undo} disabled={!canUndo}>Undo</button>
             <button className="nn-toolbar-btn" onClick={redo} disabled={!canRedo}>Redo</button>
             <button className="nn-toolbar-btn" onClick={() => canvasRef.current?.fitView()}>Fit</button>
+            <button className="nn-toolbar-btn" data-testid="demo-theme" onClick={() => setTheme(NEXT_THEME[theme])}>
+              Theme: {theme === 'none' ? 'default' : theme}
+            </button>
           </>}
         />
       </div>

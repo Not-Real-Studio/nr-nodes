@@ -1,7 +1,63 @@
 /* ============================================================================
    nr-nodes — Base Styles
    All classes prefixed with nn- (notreal-nodes)
+
+   Theme: every colour, font and radius below goes through an --nn-* variable,
+   declared once on the component roots. Each one reads the host's --nr-* token
+   (nrchat theme tokens) and falls back to the editor's own dark look, so a page
+   without tokens looks exactly as before. Outside this block — no colour
+   literals (checked by a test). Node header colour comes from NodeDef.color.
    ============================================================================ */
+
+.nn-canvas,
+.nn-inspector,
+.nn-toolbar {
+  /* surfaces */
+  --nn-bg: var(--nr-bg, #1a1a2e);
+  --nn-grid: var(--nr-line-soft, #ffffff08);
+  --nn-panel: var(--nr-surface, #1e1e2e);
+  --nn-sunken: var(--nr-bg, #1a1a28);
+  --nn-node: var(--nr-surface, #252535);
+  --nn-raised: var(--nr-raised, #333345);
+  --nn-raised-hover: var(--nr-line, #444455);
+  --nn-field: var(--nr-raised, #252535);
+  --nn-port: var(--nr-raised, #444444);
+  /* lines */
+  --nn-line: var(--nr-line, #3a3a4a);
+  --nn-line-soft: var(--nr-line-soft, #333333);
+  --nn-line-strong: var(--nr-line, #444444);
+  --nn-line-hover: var(--nr-muted, #555555);
+  --nn-port-line: var(--nr-line, #666666);
+  /* text */
+  --nn-fg: var(--nr-fg, #cccccc);
+  --nn-fg-strong: var(--nr-fg, #eeeeee);
+  --nn-fg-field: var(--nr-fg, #dddddd);
+  --nn-fg-port: var(--nr-muted, #aaaaaa);
+  --nn-muted: var(--nr-muted, #888888);
+  --nn-muted-body: var(--nr-muted, #999999);
+  --nn-muted-preview: var(--nr-muted, #7a7a8a);
+  --nn-faint: var(--nr-muted, #666666);
+  /* accent, connections, states */
+  --nn-accent: var(--nr-accent, #4a9eff);
+  --nn-accent-ring: color-mix(in srgb, var(--nr-accent, #4a9eff) 30%, transparent);
+  --nn-port-connected-line: var(--nr-accent, #5aaeff);
+  --nn-wire: var(--nr-accent, #666666);
+  --nn-warning: var(--nr-warning, #ffb347);
+  --nn-error: var(--nr-error, #ff6666);
+  --nn-error-strong: var(--nr-error, #ff8888);
+  --nn-error-bg: color-mix(in srgb, var(--nr-error, #ff4444) 12.5%, transparent);
+  --nn-error-line: color-mix(in srgb, var(--nr-error, #ff4444) 26.7%, transparent);
+  --nn-group-default: var(--nr-muted, #8a8aa8);
+  --nn-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+  /* type and shape; no --nr-font-ui → font inherits, as before */
+  --nn-font-ui: var(--nr-font-ui);
+  --nn-font-mono: var(--nr-font-mono, monospace);
+  --nn-radius: var(--nr-radius, 8px);
+  --nn-radius-sm: var(--nr-radius, 4px);
+  --nn-radius-xs: var(--nr-radius, 3px);
+  --nn-radius-controls: var(--nr-radius, 6px);
+  font-family: var(--nn-font-ui);
+}
 
 /* Canvas */
 .nn-canvas {
@@ -9,9 +65,9 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #1a1a2e;
+  background-color: var(--nn-bg);
   background-image:
-    radial-gradient(circle, #ffffff08 1px, transparent 1px);
+    radial-gradient(circle, var(--nn-grid) 1px, transparent 1px);
   background-size: 20px 20px;
   cursor: default;
   user-select: none;
@@ -37,24 +93,24 @@
   display: flex;
   gap: 2px;
   z-index: 10;
-  background: #1e1e2e;
-  border-radius: 6px;
+  background: var(--nn-panel);
+  border-radius: var(--nn-radius-controls);
   padding: 2px;
-  border: 1px solid #333;
+  border: 1px solid var(--nn-line-soft);
 }
 
 .nn-zoom-controls button {
   background: transparent;
-  color: #ccc;
+  color: var(--nn-fg);
   border: none;
   padding: 4px 10px;
   cursor: pointer;
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: var(--nn-radius-sm);
 }
 
 .nn-zoom-controls button:hover {
-  background: #333;
+  background: var(--nn-line-soft);
 }
 
 /* Group frames */
@@ -65,13 +121,13 @@
 }
 
 .nn-group {
-  --nn-group-color: #8a8aa8;
+  --nn-group-color: var(--nn-group-default);
   position: absolute;
   top: 0;
   left: 0;
   box-sizing: border-box;
   border: 1px solid var(--nn-group-color);
-  border-radius: 10px;
+  border-radius: calc(var(--nn-radius) + 2px);
   background: color-mix(in srgb, var(--nn-group-color) 8%, transparent);
   pointer-events: none;
 }
@@ -82,7 +138,7 @@
   left: 8px;
   max-width: calc(100% - 16px);
   padding: 1px 6px;
-  border-radius: 4px;
+  border-radius: var(--nn-radius-sm);
   font-size: 11px;
   font-weight: 600;
   line-height: 16px;
@@ -115,7 +171,7 @@
 
 .nn-connection-line {
   fill: none;
-  stroke: #666;
+  stroke: var(--nn-wire);
   stroke-width: 2;
   transition: stroke 0.15s;
 }
@@ -128,17 +184,17 @@
 }
 
 .nn-connection-selected .nn-connection-line {
-  stroke: #4a9eff;
+  stroke: var(--nn-accent);
   stroke-width: 2.5;
 }
 
 .nn-connection-warning .nn-connection-line {
-  stroke: #ffb347;
+  stroke: var(--nn-warning);
 }
 
 .nn-connection-preview {
   fill: none;
-  stroke: #4a9eff;
+  stroke: var(--nn-accent);
   stroke-width: 2;
   stroke-dasharray: 6 4;
   opacity: 0.7;
@@ -155,21 +211,21 @@
 .nn-node {
   position: absolute;
   min-width: 160px;
-  background: #252535;
-  border: 1px solid #3a3a4a;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: var(--nn-node);
+  border: 1px solid var(--nn-line);
+  border-radius: var(--nn-radius);
+  box-shadow: var(--nn-shadow);
   cursor: move;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .nn-node:hover {
-  border-color: #555;
+  border-color: var(--nn-line-hover);
 }
 
 .nn-node-selected {
-  border-color: #4a9eff;
-  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-color: var(--nn-accent);
+  box-shadow: 0 0 0 2px var(--nn-accent-ring), var(--nn-shadow);
 }
 
 /* Node header */
@@ -178,11 +234,11 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: #333345;
-  border-radius: 7px 7px 0 0;
+  background: var(--nn-raised);
+  border-radius: calc(var(--nn-radius) - 1px) calc(var(--nn-radius) - 1px) 0 0;
   font-size: 12px;
   font-weight: 600;
-  color: #eee;
+  color: var(--nn-fg-strong);
 }
 
 .nn-node-icon {
@@ -225,7 +281,7 @@
   gap: 6px;
   padding: 2px 8px;
   font-size: 11px;
-  color: #aaa;
+  color: var(--nn-fg-port);
 }
 
 .nn-port-in {
@@ -240,21 +296,21 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #444;
-  border: 2px solid #666;
+  background: var(--nn-port);
+  border: 2px solid var(--nn-port-line);
   cursor: crosshair;
   transition: background 0.15s, border-color 0.15s;
   flex-shrink: 0;
 }
 
 .nn-port-circle:hover {
-  background: #4a9eff;
-  border-color: #4a9eff;
+  background: var(--nn-accent);
+  border-color: var(--nn-accent);
 }
 
 .nn-port-connected {
-  background: #4a9eff;
-  border-color: #5aaeFF;
+  background: var(--nn-accent);
+  border-color: var(--nn-port-connected-line);
 }
 
 .nn-port-label {
@@ -265,16 +321,16 @@
 .nn-node-body {
   padding: 4px 10px 6px;
   font-size: 11px;
-  color: #999;
-  border-top: 1px solid #3a3a4a;
+  color: var(--nn-muted-body);
+  border-top: 1px solid var(--nn-line);
 }
 
 /* Node preview */
 .nn-node-preview {
   padding: 4px 10px 6px;
   font-size: 11px;
-  color: #7a7a8a;
-  border-top: 1px solid #3a3a4a;
+  color: var(--nn-muted-preview);
+  border-top: 1px solid var(--nn-line);
   font-style: italic;
   max-height: 60px;
   overflow: hidden;
@@ -283,10 +339,10 @@
 /* Error */
 .nn-error {
   padding: 6px 10px;
-  background: #ff444420;
-  border: 1px solid #ff444444;
-  border-radius: 4px;
-  color: #ff6666;
+  background: var(--nn-error-bg);
+  border: 1px solid var(--nn-error-line);
+  border-radius: var(--nn-radius-sm);
+  color: var(--nn-error);
   font-size: 11px;
   display: flex;
   align-items: center;
@@ -301,9 +357,9 @@
 
 .nn-error-retry {
   background: transparent;
-  color: #ff8888;
-  border: 1px solid #ff444444;
-  border-radius: 3px;
+  color: var(--nn-error-strong);
+  border: 1px solid var(--nn-error-line);
+  border-radius: var(--nn-radius-xs);
   padding: 2px 8px;
   cursor: pointer;
   font-size: 10px;
@@ -315,8 +371,8 @@
   flex-direction: column;
   gap: 8px;
   padding: 12px;
-  background: #1e1e2e;
-  color: #ccc;
+  background: var(--nn-panel);
+  color: var(--nn-fg);
   font-size: 13px;
   height: 100%;
   overflow-y: auto;
@@ -325,7 +381,7 @@
 .nn-inspector-empty {
   align-items: center;
   justify-content: center;
-  color: #666;
+  color: var(--nn-faint);
 }
 
 .nn-inspector-header {
@@ -333,7 +389,7 @@
   align-items: center;
   gap: 8px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--nn-line-soft);
 }
 
 .nn-inspector-icon {
@@ -347,16 +403,16 @@
 
 .nn-inspector-delete {
   background: transparent;
-  color: #ff6666;
+  color: var(--nn-error);
   border: none;
   cursor: pointer;
   font-size: 16px;
   padding: 2px 6px;
-  border-radius: 3px;
+  border-radius: var(--nn-radius-xs);
 }
 
 .nn-inspector-delete:hover {
-  background: #ff444420;
+  background: var(--nn-error-bg);
 }
 
 .nn-inspector-field {
@@ -367,28 +423,28 @@
 
 .nn-inspector-label {
   font-size: 11px;
-  color: #888;
+  color: var(--nn-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .nn-inspector-input {
-  background: #252535;
-  border: 1px solid #3a3a4a;
-  border-radius: 4px;
+  background: var(--nn-field);
+  border: 1px solid var(--nn-line);
+  border-radius: var(--nn-radius-sm);
   padding: 6px 8px;
-  color: #ddd;
+  color: var(--nn-fg-field);
   font-size: 13px;
   outline: none;
 }
 
 .nn-inspector-input:focus {
-  border-color: #4a9eff;
+  border-color: var(--nn-accent);
 }
 
 .nn-inspector-json {
-  background: #1a1a28;
-  border-radius: 4px;
+  background: var(--nn-sunken);
+  border-radius: var(--nn-radius-sm);
   padding: 8px;
   overflow: auto;
   max-height: 200px;
@@ -396,16 +452,17 @@
 
 .nn-inspector-json pre {
   margin: 0;
+  font-family: var(--nn-font-mono);
   font-size: 11px;
-  color: #888;
+  color: var(--nn-muted);
 }
 
 .nn-inspector-meta {
   margin-top: auto;
   padding-top: 8px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--nn-line-soft);
   font-size: 11px;
-  color: #666;
+  color: var(--nn-faint);
 }
 
 .nn-inspector-meta-row {
@@ -415,7 +472,8 @@
 }
 
 .nn-inspector-meta code {
-  color: #888;
+  font-family: var(--nn-font-mono);
+  color: var(--nn-muted);
 }
 
 /* Toolbar */
@@ -424,17 +482,17 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: #1e1e2e;
-  border-bottom: 1px solid #333;
+  background: var(--nn-panel);
+  border-bottom: 1px solid var(--nn-line-soft);
   flex-wrap: wrap;
 }
 
 .nn-toolbar-name {
-  background: #252535;
-  border: 1px solid #3a3a4a;
-  border-radius: 4px;
+  background: var(--nn-field);
+  border: 1px solid var(--nn-line);
+  border-radius: var(--nn-radius-sm);
   padding: 4px 8px;
-  color: #ddd;
+  color: var(--nn-fg-field);
   font-size: 14px;
   font-weight: 600;
   min-width: 120px;
@@ -442,7 +500,7 @@
 }
 
 .nn-toolbar-name:focus {
-  border-color: #4a9eff;
+  border-color: var(--nn-accent);
 }
 
 .nn-toolbar-group {
@@ -453,17 +511,17 @@
 
 .nn-toolbar-group-label {
   font-size: 10px;
-  color: #666;
+  color: var(--nn-faint);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-right: 2px;
 }
 
 .nn-toolbar-btn {
-  background: #333345;
-  color: #ccc;
-  border: 1px solid #444;
-  border-radius: 4px;
+  background: var(--nn-raised);
+  color: var(--nn-fg);
+  border: 1px solid var(--nn-line-strong);
+  border-radius: var(--nn-radius-sm);
   padding: 4px 10px;
   font-size: 12px;
   cursor: pointer;
@@ -474,16 +532,16 @@
 }
 
 .nn-toolbar-btn:hover {
-  background: #444455;
+  background: var(--nn-raised-hover);
 }
 
 .nn-toolbar-btn-danger {
-  color: #ff6666;
-  border-color: #ff444444;
+  color: var(--nn-error);
+  border-color: var(--nn-error-line);
 }
 
 .nn-toolbar-btn-danger:hover {
-  background: #ff444420;
+  background: var(--nn-error-bg);
 }
 
 .nn-toolbar-actions {

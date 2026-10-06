@@ -147,3 +147,23 @@ test('Delete removes the selected node with its connections', async ({ page }) =
   await expect(node(page, 'merge')).toHaveCount(0)
   await expect(connections(page)).toHaveCount(4) // c3, c6, c7 were attached to merge
 })
+
+test('host theme tokens (--nr-*) restyle the editor; without them — the old look', async ({ page }) => {
+  const canvas = page.locator('.nn-canvas')
+  const bg = () => canvas.evaluate(el => getComputedStyle(el).backgroundColor)
+  const nodeBg = () => node(page, 'merge').evaluate(el => getComputedStyle(el).backgroundColor)
+  // No tokens on the page: the editor's own fallback colours.
+  expect(await bg()).toBe('rgb(26, 26, 46)')
+  expect(await nodeBg()).toBe('rgb(37, 37, 53)')
+  const theme = page.getByTestId('demo-theme')
+  await theme.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  expect(await bg()).toBe('rgb(246, 239, 227)')
+  expect(await nodeBg()).toBe('rgb(239, 230, 216)')
+  await theme.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  expect(await bg()).toBe('rgb(23, 19, 16)')
+  await theme.click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'none')
+  expect(await bg()).toBe('rgb(26, 26, 46)')
+})

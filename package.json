@@ -1,6 +1,6 @@
 {
   "name": "@notrealstudio/nr-nodes",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node-graph editor: headless core (registry, graph ops, validation, groups, layered auto-layout) and a React canvas with ports, connections, inspector and undo.",
   "keywords": [
     "node-editor",

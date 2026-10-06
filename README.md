@@ -120,6 +120,27 @@ Cmd/Ctrl+Z / Shift+Cmd/Ctrl+Z call `onUndo` / `onRedo` while the canvas has focu
 pan/zoom. One drag = one `onNodeMoveStart` / `onNodeMoveEnd` pair, fired only if the
 pointer actually moved.
 
+## Theme
+
+`@notrealstudio/nr-nodes/ui/styles` styles every colour, font and radius through `--nn-*` variables,
+declared once on the component roots (`.nn-canvas`, `.nn-inspector`, `.nn-toolbar`). Each reads a host
+theme token and falls back to the editor's own dark look:
+
+| host token | used for |
+|---|---|
+| `--nr-bg` | canvas, sunken panels |
+| `--nr-surface` | nodes, inspector, toolbar |
+| `--nr-raised` | node header, inputs, buttons |
+| `--nr-line`, `--nr-line-soft` | borders, grid dots |
+| `--nr-fg`, `--nr-muted` | text, secondary text |
+| `--nr-accent` | selection, connections, connected ports |
+| `--nr-error` | errors, delete |
+| `--nr-font-ui`, `--nr-font-mono`, `--nr-radius` | type and shape |
+
+Set the tokens on any ancestor (nrchat does it on `:root`) and the editor looks like the host; without
+them it looks as before. To tweak one thing, override the `--nn-*` variable on the root. A node's header
+colour still comes from `NodeDef.color`. The demo has a light/dark switch (`Theme:` in the toolbar).
+
 ## Development
 
 ```sh
