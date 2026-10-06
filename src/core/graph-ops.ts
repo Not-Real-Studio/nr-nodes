@@ -1,7 +1,7 @@
-import type { NodeGraph, GraphNode, Connection, PortRef, Position } from './types'
-import type { NodeRegistry } from './registry'
-import { generateId } from './id'
-import { validateConnection } from './validation'
+import type { NodeGraph, GraphNode, Connection, PortRef, Position } from './types.js'
+import type { NodeRegistry } from './registry.js'
+import { generateId } from './id.js'
+import { validateConnection } from './validation.js'
 
 // ============================================================================
 // Empty graph

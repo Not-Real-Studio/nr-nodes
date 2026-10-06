@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import type { NodeGraph, NodeDef, GraphNode, PortRef, Position, PortDef, ViewState } from '../../core/types'
-import type { NodeRegistry } from '../../core/registry'
-import { NodeView } from './NodeView'
-import { ConnectionView } from './ConnectionView'
-import { ConnectionPreview } from './ConnectionPreview'
+import type { NodeGraph, NodeDef, GraphNode, PortRef, Position, PortDef, ViewState } from '../../core/types.js'
+import type { NodeRegistry } from '../../core/registry.js'
+import { NodeView } from './NodeView.js'
+import { ConnectionView } from './ConnectionView.js'
+import { ConnectionPreview } from './ConnectionPreview.js'
 
 export interface CanvasProps {
   graph: NodeGraph

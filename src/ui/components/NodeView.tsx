@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useEffect } from 'react'
-import type { GraphNode, NodeDef, PortDef, NodeGraph } from '../../core/types'
-import { PortView } from './PortView'
-import { NodeErrorBoundary } from './ErrorBoundary'
+import type { GraphNode, NodeDef, PortDef, NodeGraph } from '../../core/types.js'
+import { PortView } from './PortView.js'
+import { NodeErrorBoundary } from './ErrorBoundary.js'
 
 export interface NodeViewProps {
   node: GraphNode

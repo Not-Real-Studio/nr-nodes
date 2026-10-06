@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { NodeRegistry } from '../registry'
-import type { NodeDef } from '../types'
+import { NodeRegistry } from '../registry.js'
+import type { NodeDef } from '../types.js'
 
 function makeDef(type: string, category?: string): NodeDef {
   return {

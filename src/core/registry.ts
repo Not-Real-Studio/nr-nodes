@@ -1,5 +1,5 @@
-import type { NodeDef, GraphNode, Position } from './types'
-import { generateId } from './id'
+import type { NodeDef, GraphNode, Position } from './types.js'
+import { generateId } from './id.js'
 
 export class NodeRegistry {
   private defs = new Map<string, NodeDef>()

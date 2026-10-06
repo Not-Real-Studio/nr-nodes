@@ -1,44 +1,68 @@
 {
-  "name": "@notreal/nodes",
-  "version": "0.1.20",
-  "description": "Node-based editor framework for LLM pipelines and procedural generation",
+  "name": "@notrealstudio/nr-nodes",
+  "version": "0.2.0",
+  "description": "Node-graph editor: headless core (registry, graph ops, validation, groups, layered auto-layout) and a React canvas with ports, connections, inspector and undo.",
+  "keywords": [
+    "node-editor",
+    "graph",
+    "nodes",
+    "react",
+    "pipeline",
+    "auto-layout",
+    "visual-programming"
+  ],
+  "license": "MIT",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     "./core": {
-      "types": "./src/core/index.ts",
-      "import": "./src/core/index.ts"
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
     },
     "./ui": {
-      "types": "./src/ui/index.ts",
-      "import": "./src/ui/index.ts"
+      "types": "./dist/ui/index.d.ts",
+      "import": "./dist/ui/index.js"
     },
-    "./ui/styles": "./src/ui/styles/nodes.css"
+    "./ui/styles": "./dist/ui/styles/nodes.css"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "vitest",
-    "test:run": "vitest run"
+    "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "tsc -p tsconfig.build.json && node -e \"const fs=require('fs');fs.mkdirSync('dist/ui/styles',{recursive:true});fs.copyFileSync('src/ui/styles/nodes.css','dist/ui/styles/nodes.css')\"",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "demo": "vite demo --port 5190 --strictPort",
+    "demo:build": "vite build demo",
+    "e2e": "playwright test",
+    "prepublishOnly": "node -e \"const p=require('./package.json');const bad=Object.entries({...p.dependencies,...p.peerDependencies}).filter(([,v])=>String(v).startsWith('file:'));if(bad.length){console.error('publish blocked: file: deps '+bad.map(([k])=>k).join(', '));process.exit(1)}\""
   },
   "peerDependencies": {
-    "react": "^18.0.0"
+    "react": ">=18 <20"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "@types/react": "^18.2.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^24.19.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "^5.3.0",
+    "vite": "^7.0.0",
     "vitest": "^1.0.0"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/notreal/nodes"
-  },
-  "author": "Denis",
-  "license": "MIT"
+  "author": "Julian Garrett",
+  "main": "./dist/core/index.js",
+  "types": "./dist/core/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
 }

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import type { NodeGraph, GraphNode, PortRef, Position, Connection } from '../../core/types'
-import type { NodeRegistry } from '../../core/registry'
-import * as ops from '../../core/graph-ops'
+import type { NodeGraph, GraphNode, PortRef, Position, Connection } from '../../core/types.js'
+import type { NodeRegistry } from '../../core/registry.js'
+import * as ops from '../../core/graph-ops.js'
 
 export interface UseGraphOptions {
   initial?: NodeGraph

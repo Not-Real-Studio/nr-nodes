@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { serializeGraph, deserializeGraph } from '../serialization'
-import type { NodeGraph } from '../types'
+import { serializeGraph, deserializeGraph } from '../serialization.js'
+import type { NodeGraph } from '../types.js'
 
 describe('serialization', () => {
   const graph: NodeGraph = {

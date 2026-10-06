@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { validateConnection, getNodePorts, findPort } from '../validation'
-import { NodeRegistry } from '../registry'
-import type { NodeGraph, PortDef } from '../types'
+import { validateConnection, getNodePorts, findPort } from '../validation.js'
+import { NodeRegistry } from '../registry.js'
+import type { NodeGraph, PortDef } from '../types.js'
 
 function makeRegistry(): NodeRegistry {
   const reg = new NodeRegistry()

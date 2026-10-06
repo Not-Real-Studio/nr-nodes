@@ -1,4 +1,4 @@
-import type { NodeGraph } from './types'
+import type { NodeGraph } from './types.js'
 
 /** Serialize graph to JSON string */
 export function serializeGraph(graph: NodeGraph): string {

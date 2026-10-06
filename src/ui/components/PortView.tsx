@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import type { PortDef } from '../../core/types'
+import type { PortDef } from '../../core/types.js'
 
 export interface PortViewProps {
   port: PortDef

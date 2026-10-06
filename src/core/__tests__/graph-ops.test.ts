@@ -4,9 +4,9 @@ import {
   addNode, removeNode, updateNode, updateNodeData, moveNode,
   addConnection, removeConnection, getConnections, getPortConnections,
   topologicalSort,
-} from '../graph-ops'
-import { NodeRegistry } from '../registry'
-import type { NodeDef, GraphNode, NodeGraph } from '../types'
+} from '../graph-ops.js'
+import { NodeRegistry } from '../registry.js'
+import type { NodeDef, GraphNode, NodeGraph } from '../types.js'
 
 // --- Helpers ---
 

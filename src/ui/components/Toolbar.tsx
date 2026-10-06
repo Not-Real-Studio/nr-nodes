@@ -1,5 +1,5 @@
 import React from 'react'
-import type { NodeRegistry } from '../../core/registry'
+import type { NodeRegistry } from '../../core/registry.js'
 
 export interface ToolbarProps {
   registry: NodeRegistry

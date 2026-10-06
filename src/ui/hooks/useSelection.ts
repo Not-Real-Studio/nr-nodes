@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
-import type { NodeGraph } from '../../core/types'
-import { removeNode, removeConnection } from '../../core/graph-ops'
+import type { NodeGraph } from '../../core/types.js'
+import { removeNode, removeConnection } from '../../core/graph-ops.js'
 
 export function useSelection() {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([])

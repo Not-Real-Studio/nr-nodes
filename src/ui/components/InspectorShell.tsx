@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import type { GraphNode, NodeDef, NodeGraph } from '../../core/types'
-import { NodeErrorBoundary } from './ErrorBoundary'
+import type { GraphNode, NodeDef, NodeGraph } from '../../core/types.js'
+import { NodeErrorBoundary } from './ErrorBoundary.js'
 
 export interface InspectorShellProps {
   /** Selected node (null = nothing selected) */

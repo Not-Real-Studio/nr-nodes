@@ -1,5 +1,5 @@
-import type { NodeGraph, PortRef, ConnectionValidationResult, PortDef } from './types'
-import type { NodeRegistry } from './registry'
+import type { NodeGraph, PortRef, ConnectionValidationResult, PortDef } from './types.js'
+import type { NodeRegistry } from './registry.js'
 
 /** Get all ports for a node (static + dynamic) */
 export function getNodePorts(graph: NodeGraph, nodeId: string, registry: NodeRegistry): PortDef[] {

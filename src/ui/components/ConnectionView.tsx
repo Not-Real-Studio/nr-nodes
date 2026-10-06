@@ -1,4 +1,4 @@
-import type { Position } from '../../core/types'
+import type { Position } from '../../core/types.js'
 
 export interface ConnectionViewProps {
   from: Position
