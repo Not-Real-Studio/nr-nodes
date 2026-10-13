@@ -12,6 +12,10 @@
     "visual-programming"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Not-Real-Studio/nr-nodes.git"
+  },
   "type": "module",
   "sideEffects": [
     "*.css"
